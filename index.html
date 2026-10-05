@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Turnamen - 32 Team</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--bg:#07111f;--card:#0e1c2f;--card2:#12253d;--line:#213a59;--text:#eef6ff;--muted:#93a8c0;--blue:#3b82f6;--green:#22c55e;--red:#ef4444;--yellow:#f59e0b}
 *{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(135deg,#06101d,#0a1d35 55%,#0d2a4a);color:var(--text);min-height:100vh}
@@ -41,7 +42,16 @@ header{padding:28px 18px 18px;text-align:center}header h1{margin:0;font-size:32p
 <div class="field"><label>ID Player 4</label><input id="p4" required></div>
 </div><div class="formactions"><button type="button" class="secondary" onclick="closeModal()">Batal</button><button class="primary" type="submit">💾 Simpan Team</button></div></form></div></div>
 
+
 <script>
+const SUPABASE_URL = "https://gnejjmllyvacskpbrkgw.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_FnzJNYm7TtnA61CI_uvDnQ_aqQefTdR";
+
+const supabase = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+);
 const KEY='turnamen32Teams';let editing=null;
 function load(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return {}}}
 function save(data){localStorage.setItem(KEY,JSON.stringify(data))}
