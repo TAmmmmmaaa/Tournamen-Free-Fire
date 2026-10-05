@@ -4,766 +4,94 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Turnamen - 32 Team</title>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
-:root{--bg:#07111f;--card:#0e1c2f;--card2:#12253d;--line:#213a59;--text:#eef6ff;--muted:#93a8c0;--blue:#3b82f6;--green:#22c55e;--red:#ef4444;--yellow:#f59e0b}
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(135deg,#06101d,#0a1d35 55%,#0d2a4a);color:var(--text);min-height:100vh}
-header{padding:28px 18px 18px;text-align:center}
-header h1{margin:0;font-size:32px}
-header p{color:var(--muted);margin:8px 0 0}
-.wrap{max-width:1200px;margin:auto;padding:0 16px 30px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:10px 0 20px}
-.stat{background:rgba(14,28,47,.9);border:1px solid var(--line);border-radius:16px;padding:16px;text-align:center}
-.stat b{display:block;font-size:26px}
-.stat span{color:var(--muted);font-size:13px}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
-button{border:0;border-radius:10px;padding:11px 15px;font-weight:700;cursor:pointer}
-.primary{background:var(--blue);color:#fff}
-.secondary{background:#1a2d46;color:#fff}
-.danger{background:#4a1720;color:#fff}
-.all{background:#173d2a;color:#fff}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.slot{background:rgba(14,28,47,.96);border:1px solid var(--line);border-radius:16px;padding:15px;min-height:190px;display:flex;flex-direction:column}
-.slot.occupied{border-color:#27633f;box-shadow:0 0 0 1px rgba(34,197,94,.08)}
-.slottop{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.slotnum{font-weight:800}
-.badge{font-size:11px;font-weight:800;padding:6px 8px;border-radius:999px}
-.empty{background:#26364a;color:#b8c7d8}
-.filled{background:#153a27;color:#73e5a0}
-.team{font-size:18px;font-weight:800;margin:15px 0 7px;word-break:break-word}
-.rep,.phone,.players{color:var(--muted);font-size:13px;line-height:1.5}
-.players{margin-top:10px}
-.slotbuttons{display:flex;gap:7px;margin-top:auto}
-.slotbuttons button{flex:1;padding:9px 8px;font-size:12px}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);align-items:center;justify-content:center;padding:16px;z-index:10}
-.modal.show{display:flex}
-.modalbox{width:min(680px,100%);max-height:92vh;overflow:auto;background:#0b192b;border:1px solid var(--line);border-radius:18px;padding:22px}
-.modalbox h2{margin:0 0 16px}
-.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.field{margin-bottom:12px}
-.field.full{grid-column:1/-1}
-.field label{display:block;font-size:13px;color:#bfd0e3;margin-bottom:6px;font-weight:700}
-.field input{width:100%;padding:12px;border-radius:10px;border:1px solid var(--line);background:#081526;color:#fff;outline:none}
-.field input:focus{border-color:var(--blue)}
-.formactions{display:flex;gap:10px;justify-content:flex-end;margin-top:10px}
-.searchrow{display:flex;gap:10px;margin:0 0 16px}
-.searchrow input{flex:1;padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:#0e1c2f;color:#fff}
-.note{color:var(--muted);font-size:12px;margin-top:14px;text-align:center}
-@media(max-width:950px){.grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:700px){.grid{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:1fr 1fr}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}}
-@media(max-width:470px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr}}
-@media print{body{background:#fff;color:#111}.actions,.searchrow,.slotbuttons,.note{display:none!important}.slot{break-inside:avoid;color:#111;background:#fff;border:1px solid #bbb}.rep,.phone,.players{color:#333}.badge{border:1px solid #aaa}}
+:root{--bg:#07111f;--card:#0e1c2f;--line:#213a59;--text:#eef6ff;--muted:#93a8c0;--blue:#3b82f6;--green:#22c55e;--red:#ef4444}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(135deg,#06101d,#0a1d35 55%,#0d2a4a);color:var(--text);min-height:100vh}
+header{padding:28px 18px 18px;text-align:center}header h1{margin:0;font-size:32px}header p{color:var(--muted);margin:8px 0 0}
+.wrap{max-width:1200px;margin:auto;padding:0 16px 30px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:10px 0 20px}.stat{background:rgba(14,28,47,.9);border:1px solid var(--line);border-radius:16px;padding:16px;text-align:center}.stat b{display:block;font-size:26px}.stat span{color:var(--muted);font-size:13px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}button{border:0;border-radius:10px;padding:11px 15px;font-weight:700;cursor:pointer}.primary{background:var(--blue);color:#fff}.secondary{background:#1a2d46;color:#fff}.danger{background:#4a1720;color:#fff}.all{background:#173d2a;color:#fff}
+.statusmsg{display:none;margin:0 0 16px;padding:11px 13px;border-radius:10px;background:#3b2410;border:1px solid #714a19;color:#ffd38a;font-size:13px}.statusmsg.show{display:block}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.slot{background:rgba(14,28,47,.96);border:1px solid var(--line);border-radius:16px;padding:15px;min-height:190px;display:flex;flex-direction:column}.slot.occupied{border-color:#27633f;box-shadow:0 0 0 1px rgba(34,197,94,.08)}.slottop{display:flex;justify-content:space-between;align-items:center;gap:8px}.slotnum{font-weight:800}.badge{font-size:11px;font-weight:800;padding:6px 8px;border-radius:999px}.empty{background:#26364a;color:#b8c7d8}.filled{background:#153a27;color:#73e5a0}.team{font-size:18px;font-weight:800;margin:15px 0 7px;word-break:break-word}.rep,.phone,.players{color:var(--muted);font-size:13px;line-height:1.5}.players{margin-top:10px}.slotbuttons{display:flex;gap:7px;margin-top:auto}.slotbuttons button{flex:1;padding:9px 8px;font-size:12px}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);align-items:center;justify-content:center;padding:16px;z-index:10}.modal.show{display:flex}.modalbox{width:min(680px,100%);max-height:92vh;overflow:auto;background:#0b192b;border:1px solid var(--line);border-radius:18px;padding:22px}.modalbox h2{margin:0 0 16px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{margin-bottom:12px}.field.full{grid-column:1/-1}.field label{display:block;font-size:13px;color:#bfd0e3;margin-bottom:6px;font-weight:700}.field input{width:100%;padding:12px;border-radius:10px;border:1px solid var(--line);background:#081526;color:#fff;outline:none}.field input:focus{border-color:var(--blue)}.formactions{display:flex;gap:10px;justify-content:flex-end;margin-top:10px}
+.searchrow{display:flex;gap:10px;margin:0 0 16px}.searchrow input{flex:1;padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:#0e1c2f;color:#fff;outline:none}.note{color:var(--muted);font-size:12px;margin-top:14px;text-align:center}
+@media(max-width:950px){.grid{grid-template-columns:repeat(3,1fr)}}@media(max-width:700px){.grid{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:1fr 1fr}.formgrid{grid-template-columns:1fr}}@media(max-width:470px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr}}
+@media print{body{background:#fff;color:#111}.actions,.searchrow,.slotbuttons,.note,.statusmsg{display:none!important}.slot{break-inside:avoid;color:#111;background:#fff;border:1px solid #bbb}.rep,.phone,.players{color:#333}.badge{border:1px solid #aaa}}
 </style>
 </head>
-
 <body>
-
-<header>
-<h1>🏆 PENDAFTARAN TURNAMEN</h1>
-<p>32 Slot Team • Data tersimpan online</p>
-</header>
-
+<header><h1>🏆 PENDAFTARAN TURNAMEN</h1><p>32 Slot Team • Data tersimpan online</p></header>
 <div class="wrap">
-
-<div class="stats">
-<div class="stat"><b id="filledCount">0</b><span>TEAM TERISI</span></div>
-<div class="stat"><b id="emptyCount">32</b><span>SLOT KOSONG</span></div>
-<div class="stat"><b>32</b><span>TOTAL SLOT</span></div>
-</div>
-
-<div class="actions">
-<button class="primary" onclick="openModal()">➕ Tambah Team</button>
-<button class="secondary" onclick="window.print()">🖨️ Cetak</button>
-<button class="secondary" onclick="exportCSV()">📥 Export CSV</button>
-<button class="all" onclick="clearAll()">🗑️ Hapus Semua</button>
-</div>
-
-<div class="searchrow">
-<input id="search" placeholder="Cari nama team, perwakilan, atau ID player..." oninput="render()">
-</div>
-
+<div class="stats"><div class="stat"><b id="filledCount">0</b><span>TEAM TERISI</span></div><div class="stat"><b id="emptyCount">32</b><span>SLOT KOSONG</span></div><div class="stat"><b>32</b><span>TOTAL SLOT</span></div></div>
+<div class="actions"><button class="primary" onclick="openModal()">➕ Tambah Team</button><button class="secondary" onclick="refreshTeams()">🔄 Refresh</button><button class="secondary" onclick="window.print()">🖨️ Cetak</button><button class="secondary" onclick="exportCSV()">📥 Export CSV</button><button class="all" onclick="clearAll()">🗑️ Hapus Semua</button></div>
+<div id="statusMsg" class="statusmsg"></div>
+<div class="searchrow"><input id="search" placeholder="Cari nama team, perwakilan, WhatsApp, atau ID player..." oninput="render()"></div>
 <div id="grid" class="grid"></div>
-
-<div class="note">
-Data tersimpan di Supabase dan dapat dilihat dari perangkat lain.
+<div class="note">Data dibaca dari Supabase. Perubahan dari perangkat lain dicek otomatis setiap 5 detik.</div>
 </div>
-
-</div>
-
-<div id="modal" class="modal">
-<div class="modalbox">
-
-<h2 id="modalTitle">Tambah Team</h2>
-
-<form id="teamForm">
-
-<div class="formgrid">
-
-<div class="field">
-<label>Slot Team</label>
-<input id="slot" type="number" min="1" max="32" required>
-</div>
-
-<div class="field">
-<label>Nama Team</label>
-<input id="teamName" required placeholder="Nama team">
-</div>
-
-<div class="field">
-<label>No. WhatsApp</label>
-<input id="wa" type="tel" required placeholder="08xxxxxxxxxx">
-</div>
-
-<div class="field">
-<label>Nama Perwakilan Team</label>
-<input id="rep" required placeholder="Nama perwakilan">
-</div>
-
-<div class="field">
-<label>ID Player 1</label>
-<input id="p1" required>
-</div>
-
-<div class="field">
-<label>ID Player 2</label>
-<input id="p2" required>
-</div>
-
-<div class="field">
-<label>ID Player 3</label>
-<input id="p3" required>
-</div>
-
-<div class="field">
-<label>ID Player 4</label>
-<input id="p4" required>
-</div>
-
-</div>
-
-<div class="formactions">
-<button type="button" class="secondary" onclick="closeModal()">Batal</button>
-<button class="primary" type="submit">💾 Simpan Team</button>
-</div>
-
-</form>
-</div>
-</div>
+<div id="modal" class="modal"><div class="modalbox"><h2 id="modalTitle">Tambah Team</h2><form id="teamForm"><div class="formgrid">
+<div class="field"><label>Slot Team</label><input id="slot" type="number" min="1" max="32" required></div>
+<div class="field"><label>Nama Team</label><input id="teamName" required placeholder="Nama team"></div>
+<div class="field"><label>No. WhatsApp</label><input id="wa" type="tel" required placeholder="08xxxxxxxxxx"></div>
+<div class="field"><label>Nama Perwakilan Team</label><input id="rep" required placeholder="Nama perwakilan"></div>
+<div class="field"><label>ID Player 1</label><input id="p1" required></div><div class="field"><label>ID Player 2</label><input id="p2" required></div>
+<div class="field"><label>ID Player 3</label><input id="p3" required></div><div class="field"><label>ID Player 4</label><input id="p4" required></div>
+</div><div class="formactions"><button type="button" class="secondary" onclick="closeModal()">Batal</button><button class="primary" type="submit">💾 Simpan Team</button></div></form></div></div>
 
 <script>
-
 const SUPABASE_URL="https://gnejjmllyvacskpbrkgw.supabase.co";
-
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_FnzJNYm7TtnA61CI_uvDnQ_aqQefTdR";
+let supabaseClient=null,editing=null,teams={};
 
-const supabase=window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_PUBLISHABLE_KEY
-);
+function showStatus(msg){const el=document.getElementById('statusMsg');el.textContent=msg;el.classList.add('show')}
+function hideStatus(){document.getElementById('statusMsg').classList.remove('show')}
+function blankTeams(){const r={};for(let i=1;i<=32;i++)r[i]=null;return r}
+function esc(s){return String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
 
-let editing=null;
-
-async function load(){
-
-const {data,error}=await supabase
-.from('teams')
-.select('*')
-.order('slot',{ascending:true});
-
-if(error){
-
-console.error(error);
-
-alert(
-'Gagal mengambil data dari Supabase:\n'+
-error.message
-);
-
-return {};
-
-}
-
-const r={};
-
-data.forEach(t=>{
-
-if(t.team_name){
-
-r[t.slot]={
-
-team:t.team_name,
-
-wa:t.whatsapp||'',
-
-rep:t.representative||'',
-
-players:[
-
-t.player1_id||'',
-
-t.player2_id||'',
-
-t.player3_id||'',
-
-t.player4_id||''
-
-]
-
-};
-
-}
-
-});
-
-return r;
-
-}
-
-function esc(s){
-
-return String(s).replace(
-/[&<>'"]/g,
-c=>({
-
-'&':'&amp;',
-'<':'&lt;',
-'>':'&gt;',
-"'":'&#39;',
-'"':'&quot;'
-
-}[c])
-
-);
-
-}
-
-async function render(){
-
-const data=await load();
-
-const searchInput=
-document.getElementById('search');
-
-const q=searchInput
-?searchInput.value.toLowerCase()
-:'';
-
-let filled=0;
-
-let html='';
-
+function render(){
+const q=(document.getElementById('search')?.value||'').toLowerCase().trim();let filled=0,html='';
 for(let i=1;i<=32;i++){
-
-const t=data[i];
-
-if(t)filled++;
-
-const text=t
-?[t.team,t.rep,t.wa,...t.players]
-.join(' ')
-.toLowerCase()
-:'';
-
-if(q&&!text.includes(q))
-continue;
-
-html+=`
-
-<div class="slot ${t?'occupied':''}">
-
-<div class="slottop">
-
-<div class="slotnum">
-TEAM ${i}
-</div>
-
-<span class="badge ${t?'filled':'empty'}">
-${t?'TERISI':'KOSONG'}
-</span>
-
-</div>
-
-${
-t
-?
-`
-
-<div class="team">
-${esc(t.team)}
-</div>
-
-<div class="rep">
-👤 ${esc(t.rep)}
-</div>
-
-<div class="phone">
-📱 ${esc(t.wa)}
-</div>
-
-<div class="players">
-
-<b>Player:</b><br>
-
-1. ${esc(t.players[0])}<br>
-2. ${esc(t.players[1])}<br>
-3. ${esc(t.players[2])}<br>
-4. ${esc(t.players[3])}
-
-</div>
-
-<div class="slotbuttons">
-
-<button
-class="secondary"
-onclick="editTeam(${i})">
-
-Edit
-
-</button>
-
-<button
-class="danger"
-onclick="deleteTeam(${i})">
-
-Hapus
-
-</button>
-
-</div>
-
-`
-:
-`
-
-<div style="
-color:#71859c;
-margin:18px 0;
-text-align:center">
-
-Slot masih tersedia
-
-</div>
-
-<div class="slotbuttons">
-
-<button
-class="primary"
-onclick="openModal(${i})">
-
-Isi Slot
-
-</button>
-
-</div>
-
-`
+const t=teams[i];if(t)filled++;const text=t?[t.team,t.rep,t.wa,...t.players].join(' ').toLowerCase():'';if(q&&!text.includes(q))continue;
+html+=`<div class="slot ${t?'occupied':''}"><div class="slottop"><div class="slotnum">TEAM ${i}</div><span class="badge ${t?'filled':'empty'}">${t?'TERISI':'KOSONG'}</span></div>${t?`<div class="team">${esc(t.team)}</div><div class="rep">👤 ${esc(t.rep)}</div><div class="phone">📱 ${esc(t.wa)}</div><div class="players"><b>Player:</b><br>1. ${esc(t.players[0])}<br>2. ${esc(t.players[1])}<br>3. ${esc(t.players[2])}<br>4. ${esc(t.players[3])}</div><div class="slotbuttons"><button class="secondary" onclick="editTeam(${i})">Edit</button><button class="danger" onclick="deleteTeam(${i})">Hapus</button></div>`:`<div style="color:#71859c;margin:18px 0;text-align:center">Slot masih tersedia</div><div class="slotbuttons"><button class="primary" onclick="openModal(${i})">Isi Slot</button></div>`}</div>`;
+}
+document.getElementById('grid').innerHTML=html||'<div style="grid-column:1/-1;text-align:center;color:#93a8c0;padding:30px">Data tidak ditemukan.</div>';document.getElementById('filledCount').textContent=filled;document.getElementById('emptyCount').textContent=32-filled;
 }
 
-</div>
-
-`;
-
+async function fetchTeams(){
+if(!supabaseClient)return;
+const {data,error}=await supabaseClient.from('teams').select('*').order('slot',{ascending:true});
+if(error){console.error(error);showStatus('Supabase belum tersambung: '+error.message);return false}
+teams=blankTeams();data.forEach(t=>{if(t.team_name){teams[t.slot]={team:t.team_name,wa:t.whatsapp||'',rep:t.representative||'',players:[t.player1_id||'',t.player2_id||'',t.player3_id||'',t.player4_id||'']}}});hideStatus();render();return true;
 }
 
-document.getElementById('grid').innerHTML=
+async function refreshTeams(){await fetchTeams()}
+function openModal(slotNo=null){editing=null;document.getElementById('modalTitle').textContent='Tambah Team';document.getElementById('teamForm').reset();document.getElementById('slot').value=slotNo||'';document.getElementById('slot').readOnly=!!slotNo;document.getElementById('modal').classList.add('show');setTimeout(()=>document.getElementById('teamName').focus(),50)}
+function closeModal(){document.getElementById('modal').classList.remove('show')}
 
-html||
+async function editTeam(n){const t=teams[n];if(!t)return;editing=n;document.getElementById('modalTitle').textContent='Edit Team '+n;document.getElementById('slot').value=n;document.getElementById('slot').readOnly=true;document.getElementById('teamName').value=t.team;document.getElementById('wa').value=t.wa;document.getElementById('rep').value=t.rep;t.players.forEach((v,i)=>document.getElementById('p'+(i+1)).value=v);document.getElementById('modal').classList.add('show')}
 
-'<div style="grid-column:1/-1;text-align:center;color:#93a8c0;padding:30px">Data tidak ditemukan.</div>';
-
-document.getElementById('filledCount').textContent=
-filled;
-
-document.getElementById('emptyCount').textContent=
-32-filled;
-
+async function saveForm(e){
+e.preventDefault();if(!supabaseClient)return alert('Supabase belum siap.');const n=Number(document.getElementById('slot').value);if(!n||n<1||n>32)return alert('Slot harus 1-32.');const existing=teams[n];if(!editing&&existing)return alert('Slot tersebut sudah terisi. Pilih slot kosong.');
+const payload={team_name:document.getElementById('teamName').value.trim(),whatsapp:document.getElementById('wa').value.trim(),representative:document.getElementById('rep').value.trim(),player1_id:document.getElementById('p1').value.trim(),player2_id:document.getElementById('p2').value.trim(),player3_id:document.getElementById('p3').value.trim(),player4_id:document.getElementById('p4').value.trim()};
+let query=supabaseClient.from('teams').update(payload).eq('slot',n);if(!editing)query=query.is('team_name',null);const {data,error}=await query.select();if(error){console.error(error);return alert('Gagal menyimpan Team:\n'+error.message)}if(!data||!data.length)return alert('Slot Team '+n+' sudah diambil atau policy Supabase belum mengizinkan update.');alert(editing?'✅ Team berhasil diperbarui!':'✅ Team berhasil disimpan!');editing=null;closeModal();await fetchTeams();
 }
 
-function openModal(slotNo=null){
+document.getElementById('teamForm').addEventListener('submit',saveForm);
 
-editing=null;
+async function deleteTeam(n){if(!supabaseClient)return;if(!confirm('Hapus data Team '+n+'?'))return;const {error}=await supabaseClient.from('teams').update({team_name:null,whatsapp:null,representative:null,player1_id:null,player2_id:null,player3_id:null,player4_id:null}).eq('slot',n);if(error)return alert('Gagal menghapus Team:\n'+error.message);await fetchTeams()}
+async function clearAll(){if(!supabaseClient)return;if(!confirm('Hapus SEMUA 32 data team?'))return;const {error}=await supabaseClient.from('teams').update({team_name:null,whatsapp:null,representative:null,player1_id:null,player2_id:null,player3_id:null,player4_id:null}).gte('slot',1).lte('slot',32);if(error)return alert('Gagal menghapus semua data:\n'+error.message);await fetchTeams()}
 
-document.getElementById('modalTitle')
-.textContent='Tambah Team';
+async function exportCSV(){if(!supabaseClient)return;const {data,error}=await supabaseClient.from('teams').select('*').order('slot',{ascending:true});if(error)return alert('Gagal mengambil data untuk export:\n'+error.message);const rows=[['Slot','Status','Nama Team','No WhatsApp','Perwakilan','Player 1','Player 2','Player 3','Player 4']];for(let i=1;i<=32;i++){const t=data.find(x=>x.slot===i);rows.push([i,t?.team_name?'TERISI':'KOSONG',t?.team_name||'',t?.whatsapp||'',t?.representative||'',t?.player1_id||'',t?.player2_id||'',t?.player3_id||'',t?.player4_id||''])}const csv=rows.map(r=>r.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(',')).join('\n');const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='data_turnamen_32_team.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+window.addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
 
-document.getElementById('teamForm').reset();
-
-document.getElementById('slot').value=
-slotNo||'';
-
-document.getElementById('slot').readOnly=
-!!slotNo;
-
-document.getElementById('modal')
-.classList.add('show');
-
-setTimeout(()=>{
-
-document.getElementById('teamName').focus();
-
-},50);
-
+function init(){
+teams=blankTeams();render();
+if(!window.supabase||!window.supabase.createClient){showStatus('Library Supabase tidak termuat. Cek koneksi internet/CDN.');return}
+supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+fetchTeams();
+setInterval(fetchTeams,5000);
 }
-
-function closeModal(){
-
-document.getElementById('modal')
-.classList.remove('show');
-
-}
-
-async function editTeam(n){
-
-const data=await load();
-
-const t=data[n];
-
-if(!t)return;
-
-editing=n;
-
-document.getElementById('modalTitle')
-.textContent='Edit Team '+n;
-
-document.getElementById('slot').value=n;
-
-document.getElementById('slot').readOnly=true;
-
-document.getElementById('teamName').value=t.team;
-
-document.getElementById('wa').value=t.wa;
-
-document.getElementById('rep').value=t.rep;
-
-t.players.forEach((v,i)=>{
-
-document.getElementById(
-'p'+(i+1)
-).value=v;
-
-});
-
-document.getElementById('modal')
-.classList.add('show');
-
-}
-
-document.getElementById('teamForm')
-.addEventListener(
-'submit',
-async e=>{
-
-e.preventDefault();
-
-const n=Number(
-document.getElementById('slot').value
-);
-
-if(!n||n<1||n>32){
-
-alert(
-'Slot harus 1-32.'
-);
-
-return;
-
-}
-
-const teamData={
-
-team_name:
-document.getElementById('teamName')
-.value.trim(),
-
-whatsapp:
-document.getElementById('wa')
-.value.trim(),
-
-representative:
-document.getElementById('rep')
-.value.trim(),
-
-player1_id:
-document.getElementById('p1')
-.value.trim(),
-
-player2_id:
-document.getElementById('p2')
-.value.trim(),
-
-player3_id:
-document.getElementById('p3')
-.value.trim(),
-
-player4_id:
-document.getElementById('p4')
-.value.trim()
-
-};
-
-let query=
-supabase
-.from('teams')
-.update(teamData)
-.eq('slot',n);
-
-if(!editing){
-
-query=query.is(
-'team_name',
-null
-);
-
-}
-
-const {data,error}=await query.select();
-
-if(error){
-
-console.error(error);
-
-alert(
-'Gagal menyimpan Team:\n'+
-error.message
-);
-
-return;
-
-}
-
-if(!data||data.length===0){
-
-alert(
-'Slot Team '+n+
-' sudah terisi atau tidak bisa diubah.'
-);
-
-return;
-
-}
-
-alert(
-editing
-?'✅ Team berhasil diperbarui!'
-:'✅ Team berhasil disimpan!'
-);
-
-editing=null;
-
-closeModal();
-
-await render();
-
-}
-);
-
-async function deleteTeam(n){
-
-if(!confirm(
-'Hapus data Team '+n+'?'
-))return;
-
-const {error}=await supabase
-.from('teams')
-.update({
-
-team_name:null,
-whatsapp:null,
-representative:null,
-player1_id:null,
-player2_id:null,
-player3_id:null,
-player4_id:null
-
-})
-.eq('slot',n);
-
-if(error){
-
-console.error(error);
-
-alert(
-'Gagal menghapus Team:\n'+
-error.message
-);
-
-return;
-
-}
-
-await render();
-
-}
-
-async function clearAll(){
-
-if(!confirm(
-'Hapus SEMUA 32 data team?'
-))return;
-
-const {error}=await supabase
-.from('teams')
-.update({
-
-team_name:null,
-whatsapp:null,
-representative:null,
-player1_id:null,
-player2_id:null,
-player3_id:null,
-player4_id:null
-
-})
-.gte('slot',1)
-.lte('slot',32);
-
-if(error){
-
-console.error(error);
-
-alert(
-'Gagal menghapus semua data:\n'+
-error.message
-);
-
-return;
-
-}
-
-await render();
-
-}
-
-async function exportCSV(){
-
-const {data,error}=await supabase
-.from('teams')
-.select('*')
-.order('slot',{ascending:true});
-
-if(error){
-
-alert(
-'Gagal mengambil data untuk export:\n'+
-error.message
-);
-
-return;
-
-}
-
-const rows=[
-
-[
-'Slot',
-'Status',
-'Nama Team',
-'No WhatsApp',
-'Perwakilan',
-'Player 1',
-'Player 2',
-'Player 3',
-'Player 4'
-]
-
-];
-
-for(let i=1;i<=32;i++){
-
-const t=data.find(
-x=>x.slot===i
-);
-
-rows.push([
-
-i,
-
-t&&t.team_name
-?'TERISI'
-:'KOSONG',
-
-t?.team_name||'',
-t?.whatsapp||'',
-t?.representative||'',
-t?.player1_id||'',
-t?.player2_id||'',
-t?.player3_id||'',
-t?.player4_id||''
-
-]);
-
-}
-
-const csv=
-
-rows
-.map(row=>
-
-row
-.map(value=>
-
-'"'+
-String(value)
-.replaceAll('"','""')+
-'"'
-
-)
-.join(',')
-
-)
-.join('\n');
-
-const url=
-URL.createObjectURL(
-new Blob(
-[csv],
-{
-type:
-'text/csv;charset=utf-8'
-}
-)
-);
-
-const a=
-document.createElement('a');
-
-a.href=url;
-
-a.download=
-'data_turnamen_32_team.csv';
-
-a.click();
-
-URL.revokeObjectURL(url);
-
-}
-
-window.addEventListener(
-'click',
-e=>{
-
-if(
-e.target.id==='modal'
-){
-
-closeModal();
-
-}
-
-}
-);
-
-render();
-
-setInterval(
-render,
-5000
-);
-
+init();
 </script>
-
 </body>
 </html>
