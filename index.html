@@ -1,43 +1,62 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Turnamen Free Fire - 64 Team</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>
-:root{--bg:#0b0e14;--panel:#151a24;--line:#303849;--muted:#aeb7c7;--orange:#ff7028;--green:#28c983}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#29212a,#10131b 52%,#090b10);color:#f5f7fb;font-family:Segoe UI,Arial,sans-serif}.wrap{width:min(1200px,calc(100% - 24px));margin:auto;padding:28px 0 45px}header{text-align:center;margin-bottom:24px}.eyebrow{font-size:12px;letter-spacing:3px;color:#ff9a54;font-weight:800;text-transform:uppercase}h1{font-size:clamp(28px,5vw,45px);margin:8px 0;text-transform:uppercase}h1 span{color:var(--orange)}.subtitle{color:var(--muted);line-height:1.5;margin:0 auto;max-width:700px}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:24px 0}.stat,.slot{background:linear-gradient(145deg,#1a202b,#11151d);border:1px solid var(--line);border-radius:13px}.stat{padding:15px}.stat-label{color:var(--muted);font-size:11px;letter-spacing:.7px;text-transform:uppercase}.stat-value{font-size:27px;font-weight:850;margin-top:5px}.toolbar{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}button{border:0;border-radius:8px;padding:11px 14px;font-weight:800;cursor:pointer}button:hover{filter:brightness(1.08)}button:disabled{opacity:.55;cursor:not-allowed}.primary{background:linear-gradient(135deg,#ff9a45,#ff6421);color:#1b1009}.secondary{background:#252c39;color:#fff;border:1px solid #3a4353}.status{font-size:13px;color:var(--muted);min-height:18px;margin:0 0 14px}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px}.slot{overflow:hidden;min-width:0}.slot.filled{border-color:#64402d}.slot-head{padding:11px 12px;display:flex;justify-content:space-between;align-items:center;gap:6px;border-bottom:1px solid #292f3b}.slot-num{font-size:14px;font-weight:900}.pill{border-radius:999px;padding:5px 8px;font-size:10px;font-weight:900;white-space:nowrap}.empty-pill{background:#2a303c;color:#c0c8d5}.filled-pill{background:#4a291d;color:#ffd0b3}.slot-body{padding:12px;min-height:105px}.team-name{font-weight:850;font-size:15px;overflow-wrap:anywhere;margin-bottom:8px}.details{font-size:12px;color:var(--muted);line-height:1.65;overflow-wrap:anywhere}.empty-text{color:#778193;font-size:12px}.slot-foot{padding:0 12px 12px}.slot-foot button{width:100%}.note{font-size:12px;color:var(--muted);line-height:1.6;margin-top:20px}.backdrop{display:none;position:fixed;inset:0;background:#000b;z-index:5;padding:16px;overflow:auto;align-items:center;justify-content:center}.backdrop.open{display:flex}.modal{width:min(560px,100%);background:#151a24;border:1px solid #3a4353;border-radius:15px;padding:21px;box-shadow:0 20px 70px #0009}.modal h2{margin:0 0 7px}.modal p{font-size:13px;color:var(--muted);line-height:1.5}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:6px;min-width:0}.full{grid-column:1/-1}label{font-size:12px;font-weight:750;color:#d5dbe6}input{background:#0d1118;border:1px solid #3a4353;color:#fff;border-radius:8px;padding:11px;width:100%;font-size:14px}input:focus{outline:1px solid var(--orange)}.actions{display:flex;gap:9px;justify-content:flex-end;margin-top:18px}.warning{background:#39251b;border:1px solid #68402b;border-radius:8px;padding:10px;color:#ffc18f!important}.hidden{display:none}@media(max-width:900px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:620px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.slot-head,.slot-body{padding:10px}.slot-foot{padding:0 10px 10px}.form-grid{grid-template-columns:1fr}.full{grid-column:auto}.stat{padding:12px}.stat-value{font-size:23px}}@media print{body{background:#fff;color:#111}.wrap{width:100%;padding:0}.toolbar,.slot-foot,.note,.status{display:none!important}.stat,.slot{background:#fff;color:#111;border:1px solid #bbb;break-inside:avoid}.stat-label,.details,.empty-text{color:#333}.grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.pill{background:#eee!important;color:#111!important}h1 span,.eyebrow{color:#111}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Pendaftaran tim turnamen Free Fire dengan 64 slot tim.">
+  <title>Turnamen Free Fire — Pendaftaran Tim</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="assets/js/config.js"></script>
+  <script defer src="assets/js/app.js"></script>
 </head>
-<body><main class="wrap">
-<header><div class="eyebrow">Official Tournament Registration</div><h1>Free Fire <span>Tournament</span></h1><p class="subtitle">Pendaftaran tim — 64 slot tersedia. Pastikan nama tim, nomor WhatsApp, dan Player ID sudah benar.</p></header>
-<section class="stats"><div class="stat"><div class="stat-label">Total Slot</div><div class="stat-value" id="total">64</div></div><div class="stat"><div class="stat-label">Tim Terisi</div><div class="stat-value" id="filled">—</div></div><div class="stat"><div class="stat-label">Slot Kosong</div><div class="stat-value" id="empty">—</div></div><div class="stat"><div class="stat-label">Data Terbaca</div><div class="stat-value" id="count">—</div></div></section>
-<div class="toolbar"><button class="primary" id="refresh">↻ Muat Ulang Data</button><button class="secondary" id="print">Cetak</button><button class="secondary" id="csv">Export CSV</button></div><p class="status" id="status" role="status">Menghubungkan ke database...</p><section class="grid" id="grid" aria-label="64 slot tim"></section>
-<p class="note">Keamanan: halaman publik hanya menyediakan pendaftaran slot kosong. Untuk mengedit atau menghapus pendaftaran, gunakan Supabase Dashboard dengan akun admin. Jangan membagikan password atau service-role key.</p></main>
-<div class="backdrop" id="backdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal"><h2 id="modalTitle">Daftar Tim</h2><p id="modalSub">Isi semua data dengan benar.</p><form id="form"><input id="slot" type="hidden"><div class="form-grid">
-<div class="field full"><label for="teamName">Nama Team *</label><input id="teamName" maxlength="80" required placeholder="Nama tim"></div>
-<div class="field"><label for="whatsapp">No. WhatsApp *</label><input id="whatsapp" maxlength="25" inputmode="tel" required placeholder="08xxxxxxxxxx"></div>
-<div class="field"><label for="rep">Nama Perwakilan *</label><input id="rep" maxlength="80" required placeholder="Nama ketua tim"></div>
-<div class="field"><label for="p1">ID Player 1 *</label><input id="p1" maxlength="30" required></div><div class="field"><label for="p2">ID Player 2 *</label><input id="p2" maxlength="30" required></div><div class="field"><label for="p3">ID Player 3 *</label><input id="p3" maxlength="30" required></div><div class="field"><label for="p4">ID Player 4 *</label><input id="p4" maxlength="30" required></div></div><p class="warning">Periksa kembali data sebelum mengirim. Pendaftaran yang sudah masuk tidak bisa diedit dari halaman publik.</p><div class="actions"><button class="secondary" id="cancel" type="button">Batal</button><button class="primary" id="submit" type="submit">Kirim Pendaftaran</button></div></form></div></div>
-<script>
-// Menggunakan project Supabase yang sama dengan website lama.
-const SUPABASE_URL='https://gnejjmllyvacskpbrkgw.supabase.co';
-const SUPABASE_KEY='sb_publishable_FnzJNYm7TtnA61CI_uvDnQ_aqQefTdR';
-const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-const TOTAL=64;let teams=[];let busy=false;const $=id=>document.getElementById(id);
-const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const filled=t=>Boolean(String(t?.team_name??'').trim());
-function status(msg,error=false){$('status').textContent=msg;$('status').style.color=error?'#ff858b':'';}
-async function load(){ $('refresh').disabled=true;status('Memuat data dari Supabase...');try{
- const {data,error}=await db.from('teams').select('slot,team_name,whatsapp,representative,player1_id,player2_id,player3_id,player4_id').gte('slot',1).lte('slot',TOTAL).order('slot',{ascending:true});if(error)throw error;
- teams=Array.from({length:TOTAL},(_,i)=>data.find(r=>Number(r.slot)===i+1)||{slot:i+1,team_name:null,whatsapp:null,representative:null,player1_id:null,player2_id:null,player3_id:null,player4_id:null});render();status('Data berhasil dimuat • '+new Date().toLocaleTimeString('id-ID'));
- }catch(e){console.error(e);status('Gagal memuat data. Periksa koneksi, tabel, dan kebijakan akses Supabase. '+(e.message||e),true);$('grid').innerHTML='<div style="grid-column:1/-1;padding:18px;border:1px solid #63343a;border-radius:12px">Data belum bisa ditampilkan. Tekan Muat Ulang Data untuk mencoba lagi.</div>';}finally{$('refresh').disabled=false;}}
-function render(){const n=teams.filter(filled).length;$('total').textContent=TOTAL;$('filled').textContent=n;$('empty').textContent=TOTAL-n;$('count').textContent=teams.length;
- $('grid').innerHTML=teams.map(t=>{const yes=filled(t),s=Number(t.slot);return `<article class="slot ${yes?'filled':''}"><div class="slot-head"><span class="slot-num">TEAM ${s}</span><span class="pill ${yes?'filled-pill':'empty-pill'}">${yes?'TERISI':'KOSONG'}</span></div><div class="slot-body">${yes?`<div class="team-name">${esc(t.team_name)}</div><div class="details"><div>Perwakilan: ${esc(t.representative||'-')}</div><div>WhatsApp: ${esc(t.whatsapp||'-')}</div><div>P1: ${esc(t.player1_id||'-')}</div><div>P2: ${esc(t.player2_id||'-')}</div><div>P3: ${esc(t.player3_id||'-')}</div><div>P4: ${esc(t.player4_id||'-')}</div></div>`:'<div class="empty-text">Slot ini masih tersedia.</div>'}</div>${yes?'':`<div class="slot-foot"><button class="primary" data-slot="${s}">Isi Slot</button></div>`}</article>`;}).join('');document.querySelectorAll('[data-slot]').forEach(b=>b.addEventListener('click',()=>openModal(Number(b.dataset.slot))));}
-function openModal(s){const t=teams.find(x=>Number(x.slot)===s);if(!t||filled(t)){alert('Slot sudah terisi. Muat ulang data.');load();return;}$('form').reset();$('slot').value=s;$('modalTitle').textContent='Daftar Team '+s;$('backdrop').classList.add('open');$('teamName').focus();}
-function closeModal(){if(!busy)$('backdrop').classList.remove('open');}$('cancel').addEventListener('click',closeModal);$('backdrop').addEventListener('click',e=>{if(e.target===$('backdrop'))closeModal();});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
-$('form').addEventListener('submit',async e=>{e.preventDefault();if(busy)return;const s=Number($('slot').value);const payload={team_name:$('teamName').value.trim(),whatsapp:$('whatsapp').value.trim(),representative:$('rep').value.trim(),player1_id:$('p1').value.trim(),player2_id:$('p2').value.trim(),player3_id:$('p3').value.trim(),player4_id:$('p4').value.trim()};if(!s||Object.values(payload).some(v=>!v)){alert('Semua kolom wajib diisi.');return;}if(!confirm('Kirim pendaftaran Team '+s+'? Pastikan data sudah benar.'))return;busy=true;$('submit').disabled=true;$('cancel').disabled=true;$('submit').textContent='Mengirim...';try{
- // Syarat .is('team_name', null) dan RLS membatasi pendaftaran pada slot kosong.
- const {data,error}=await db.from('teams').update(payload).eq('slot',s).is('team_name',null).select('slot');if(error)throw error;if(!data||data.length===0){alert('Slot sudah diisi orang lain atau akses ditolak. Data tidak diubah. Pilih slot lain.');}else{$('backdrop').classList.remove('open');alert('Pendaftaran berhasil! Team '+s+' sudah terdaftar.');}await load();
- }catch(err){console.error(err);alert('Pendaftaran gagal: '+(err.message||err)+'\nPeriksa kebijakan akses Supabase.');}finally{busy=false;$('submit').disabled=false;$('cancel').disabled=false;$('submit').textContent='Kirim Pendaftaran';}});
-$('refresh').addEventListener('click',load);$('print').addEventListener('click',()=>window.print());$('csv').addEventListener('click',()=>{if(!teams.length){alert('Data belum dimuat.');return;}const cols=['slot','team_name','whatsapp','representative','player1_id','player2_id','player3_id','player4_id'];const cell=v=>'"'+String(v??'').replace(/"/g,'""')+'"';const csv='\uFEFF'+[cols.join(','),...teams.map(t=>cols.map(c=>cell(t[c])).join(','))].join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='data-turnamen-free-fire-64-team.csv';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);});load();
-</script></body></html>
+<body>
+  <main class="wrap">
+    <header class="page-header">
+      <div class="eyebrow">Official Tournament Registration</div>
+      <h1>Free Fire <span>Tournament</span></h1>
+      <p class="subtitle">Pendaftaran tim — 64 slot tersedia. Pastikan nama tim, nomor WhatsApp, dan Player ID sudah benar.</p>
+    </header>
+
+    <section class="stats" aria-label="Statistik pendaftaran">
+      <article class="stat"><div class="stat-label">Total Slot</div><div class="stat-value" id="total">64</div></article>
+      <article class="stat"><div class="stat-label">Tim Terisi</div><div class="stat-value" id="filled">—</div></article>
+      <article class="stat"><div class="stat-label">Slot Kosong</div><div class="stat-value" id="empty">—</div></article>
+      <article class="stat"><div class="stat-label">Data Terbaca</div><div class="stat-value" id="count">—</div></article>
+    </section>
+
+    <div class="toolbar" aria-label="Aksi data">
+      <button class="primary" id="refresh" type="button">↻ Muat Ulang Data</button>
+      <button class="secondary" id="print" type="button">Cetak</button>
+      <button class="secondary" id="csv" type="button">Export CSV</button>
+    </div>
+    <p class="status" id="status" role="status" aria-live="polite">Menyiapkan aplikasi…</p>
+    <section class="grid" id="grid" aria-label="64 slot tim"></section>
+    <p class="note">Halaman publik hanya untuk melihat slot dan mendaftar ke slot kosong. Pengelolaan data dilakukan melalui akses admin Supabase. Jangan pernah menaruh service-role key atau password database di JavaScript sisi browser.</p>
+  </main>
+
+  <div class="backdrop" id="backdrop" role="presentation" hidden>
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalSub">
+      <h2 id="modalTitle">Daftar Tim</h2>
+      <p id="modalSub">Isi semua data dengan benar.</p>
+      <form id="form">
+        <input id="slot" name="slot" type="hidden">
+        <div class="form-grid">
+          <div class="field full"><label for="teamName">Nama Tim *</label><input id="teamName" name="teamName" maxlength="80" autocomplete="organization" required placeholder="Nama tim"></div>
+          <div class="field"><label for="whatsapp">Nomor WhatsApp *</label><input id="whatsapp" name="whatsapp" type="tel" maxlength="25" inputmode="tel" autocomplete="tel" required placeholder="08xxxxxxxxxx"></div>
+          <div class="field"><label for="rep">Nama Perwakilan *</label><input id="rep" name="representative" maxlength="80" autocomplete="name" required placeholder="Nama ketua tim"></div>
+          <div class="field"><label for="p1">ID Player 1 *</label><input id="p1" name="player1" maxlength="30" inputmode="numeric" required></div>
+          <div class="field"><label for="p2">ID Player 2 *</label><input id="p2" name="player2" maxlength="30" inputmode="numeric" required></div>
+          <div class="field"><label for="p3">ID Player 3 *</label><input id="p3" name="player3" maxlength="30" inputmode="numeric" required></div>
+          <div class="field"><label for="p4">ID Player 4 *</label><input id="p4" name="player4" maxlength="30" inputmode="numeric" required></div>
+        </div>
+        <p class="warning">Periksa data sebelum mengirim. Pastikan nomor WhatsApp dan Player ID benar.</p>
+        <p class="form-error" id="formError" role="alert" hidden></p>
+        <div class="actions"><button class="secondary" id="cancel" type="button">Batal</button><button class="primary" id="submit" type="submit">Kirim Pendaftaran</button></div>
+      </form>
+    </section>
+  </div>
+  <noscript>Aplikasi membutuhkan JavaScript untuk memuat dan mendaftarkan tim.</noscript>
+</body>
+</html>
